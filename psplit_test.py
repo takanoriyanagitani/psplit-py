@@ -82,4 +82,13 @@ def test_psplit():
 
   assert 1 == psplit.psplit(range(8), bdir="splited", prefilter=str)
   assert 1 == psplit.psplit(range(8), bdir="splited", prefilter=str, line2tuple=lambda lines: map(lambda line: (0,line), lines))
+
+  i = iter([
+    '{"n":"tt", "v": 333}\n',
+    '{"n":"st", "v": 634}\n',
+    '{"n":"mf", "v":3776}\n',
+  ])
+  assert 2 == psplit.psplit(i, bdir="splited", prefix="[", suffix="]\n", separator=",", sfunc=functools.partial(psplit.psplit_sfunc, hwm=1))
+  with open(os.path.join("splited", "0.txt")) as f: assert f.read() == '[{"n":"tt", "v": 333},{"n":"st", "v": 634}]\n'
+  with open(os.path.join("splited", "1.txt")) as f: assert f.read() == '[{"n":"mf", "v":3776}]\n'
   pass
