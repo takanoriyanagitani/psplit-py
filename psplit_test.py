@@ -41,20 +41,22 @@ def test_psplit_write():
   bdir = "test_dir"
 
   assert 1 == psplit.psplit_write(t, bdir)
-  with open(os.path.join(bdir, "0.txt")) as f:
-    assert "0\n1\n2" == f.read()
+  with open(os.path.join(bdir, "0.txt")) as f: assert "0\n1\n2" == f.read()
 
   key2name = functools.partial(psplit.psplit_key2name, ext=".csv")
   assert 1 == psplit.psplit_write(t, bdir, key2name)
-  with open(os.path.join(bdir, "0.csv")) as f:
-    assert "0\n1\n2" == f.read()
+  with open(os.path.join(bdir, "0.csv")) as f: assert "0\n1\n2" == f.read()
 
   key2name = functools.partial(psplit.psplit_key2name, ext=".json")
   prefix   = "["
   suffix   = "]"
   separator = ","
   assert 1 == psplit.psplit_write(t, bdir, key2name, prefix, suffix, separator)
-  with open(os.path.join(bdir, "0.json")) as f:
-    assert "[0,1,2]" == f.read()
+  with open(os.path.join(bdir, "0.json")) as f: assert "[0,1,2]" == f.read()
+
+  def str2file(s, name, tname=""):
+    with open(name, "w") as f: return f.write(s)
+  assert 5 == psplit.psplit_write(t, bdir, str2file=str2file)
+  with open(os.path.join(bdir, "0.txt")) as f: assert "0\n1\n2" == f.read()
 
   pass
