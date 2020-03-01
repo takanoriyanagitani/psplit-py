@@ -59,4 +59,8 @@ def test_psplit_write():
   assert 5 == psplit.psplit_write(t, bdir, str2file=str2file)
   with open(os.path.join(bdir, "0.txt")) as f: assert "0\n1\n2" == f.read()
 
+  tuple2line = lambda t: t[2]
+  assert 1 == psplit.psplit_write((0, [(0, "line", "3rd")]), bdir, tuple2line=tuple2line)
+  with open(os.path.join(bdir, "0.txt")) as f: assert "3rd" == f.read()
+
   pass
