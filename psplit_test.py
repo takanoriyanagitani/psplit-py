@@ -19,3 +19,14 @@ def test_psplit_sfunc():
   assert 0 == psplit.psplit_sfunc((16, None), hwm=8)
   assert 0 == psplit.psplit_sfunc((255, None), hwm=8)
   assert 1 == psplit.psplit_sfunc((256, None), hwm=8)
+
+def test_psplit_str2file():
+  tdir = "test_dir"
+  os.makedirs(tdir, exist_ok=True)
+  j = lambda n: os.path.join(tdir, n)
+
+  psplit.psplit_str2file("hw", j("t1.txt"))
+  with open(j("t1.txt")) as f: assert(f.read() == "hw")
+
+  psplit.psplit_str2file("[1,2,3]", j("t2.json"))
+  with open(j("t2.json")) as f: assert(f.read() == "[1,2,3]")
