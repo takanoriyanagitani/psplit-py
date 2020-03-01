@@ -66,5 +66,20 @@ def test_psplit_write():
   pass
 
 def test_psplit():
-  assert 1 == psplit.psplit(map(str, range(16)))
+  assert  1 == psplit.psplit(map(str, range(   1)))
+  assert  1 == psplit.psplit(map(str, range(   1)), bdir="splited")
+  assert  1 == psplit.psplit(map(str, range(  16)), bdir="splited")
+  assert  2 == psplit.psplit(map(str, range(  17)), bdir="splited")
+  assert  2 == psplit.psplit(map(str, range(  32)), bdir="splited")
+  assert  3 == psplit.psplit(map(str, range(  33)), bdir="splited")
+  assert  3 == psplit.psplit(map(str, range(  48)), bdir="splited")
+  assert  4 == psplit.psplit(map(str, range(  49)), bdir="splited")
+  assert 16 == psplit.psplit(map(str, range( 256)), bdir="splited")
+  assert 64 == psplit.psplit(map(str, range(1024)), bdir="splited")
+
+  assert 1 == psplit.psplit(map(str, range( 256)), bdir="splited", sfunc=functools.partial(psplit.psplit_sfunc, hwm= 8))
+  assert 1 == psplit.psplit(map(str, range(1024)), bdir="splited", sfunc=functools.partial(psplit.psplit_sfunc, hwm=10))
+
+  assert 1 == psplit.psplit(range(8), bdir="splited", prefilter=str)
+  assert 1 == psplit.psplit(range(8), bdir="splited", prefilter=str, line2tuple=lambda lines: map(lambda line: (0,line), lines))
   pass

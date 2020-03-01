@@ -43,15 +43,15 @@ def psplit_write(
 def psplit(
   i=iter([]),
   bdir=".",
+  prefilter=operator.methodcaller("strip"),
+  line2tuple=enumerate,
   sfunc=psplit_sfunc,
   key2name=psplit_key2name,
-  line2tuple=enumerate,
   prefix="",
   suffix="",
   separator="\n",
   str2file=psplit_str2file,
   tuple2line=operator.itemgetter(1),
-  prefilter=operator.methodcaller("strip"),
 ):
   t = line2tuple(map(prefilter, i))
   g = groupby(t, sfunc)
@@ -63,6 +63,7 @@ def psplit(
     suffix=suffix,
     separator=separator,
     str2file=str2file,
+    tuple2line=tuple2line,
   )
   writes = map(p, g)
   wrote_count = sum(writes)
