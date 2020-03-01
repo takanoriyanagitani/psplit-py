@@ -64,3 +64,7 @@ def test_psplit_write():
   with open(os.path.join(bdir, "0.txt")) as f: assert "3rd" == f.read()
 
   pass
+
+def test_psplit():
+  assert 1 == psplit.psplit(map(str, range(16)))
+  pass

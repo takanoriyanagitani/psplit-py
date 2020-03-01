@@ -66,10 +66,10 @@ def psplit(
   )
   writes = map(p, g)
   wrote_count = sum(writes)
-  print("wrote file count: " + str(wrote_count))
+  return wrote_count
 
 def main(): return psplit(sys.stdin, "splited", prefix="[", suffix="]", separator=",")
 
-def try_exec(): return "__main__" == __name__ and main()
+def try_exec(): return "__main__" == __name__ and print("wrote count: " + str(main()))
 
 try_exec()
