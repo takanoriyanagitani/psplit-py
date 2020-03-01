@@ -1,4 +1,5 @@
 import os
+import functools
 
 import psplit
 
@@ -30,3 +31,30 @@ def test_psplit_str2file():
 
   psplit.psplit_str2file("[1,2,3]", j("t2.json"))
   with open(j("t2.json")) as f: assert(f.read() == "[1,2,3]")
+  pass
+
+def test_psplit_write():
+  i = range(3)
+  s = map(str, i)
+  l = list(enumerate(s))
+  t = (0, l)
+  bdir = "test_dir"
+
+  assert 1 == psplit.psplit_write(t, bdir)
+  with open(os.path.join(bdir, "0.txt")) as f:
+    assert "0\n1\n2" == f.read()
+
+  key2name = functools.partial(psplit.psplit_key2name, ext=".csv")
+  assert 1 == psplit.psplit_write(t, bdir, key2name)
+  with open(os.path.join(bdir, "0.csv")) as f:
+    assert "0\n1\n2" == f.read()
+
+  key2name = functools.partial(psplit.psplit_key2name, ext=".json")
+  prefix   = "["
+  suffix   = "]"
+  separator = ","
+  assert 1 == psplit.psplit_write(t, bdir, key2name, prefix, suffix, separator)
+  with open(os.path.join(bdir, "0.json")) as f:
+    assert "[0,1,2]" == f.read()
+
+  pass
